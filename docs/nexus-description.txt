@@ -1,0 +1,45 @@
+[heading][color=#3296C8]Description[/color][/heading]
+Startup Scroll is a lightweight Mod Organizer 2 plugin that changes one simple thing: instead of opening the mod list and plugin list at the top, MO2 can open them at the bottom by default.
+
+Have a 4,000 mod modlist and a personal relationship with the scrollbar? This is for you.
+
+This is useful for large modlists where the work you care about most often lives near the end: final patches, generated outputs, overwrite-related mods, late plugin edits, and active testing changes.
+
+By default, Startup Scroll scrolls both the left mod list and the right plugin list to the bottom after MO2 finishes opening.
+
+
+[heading][color=#3296C8]Features[/color][/heading]
+[list]
+[*]Scrolls the mod list and plugin list to the bottom on startup by default.[/*]
+[*]Can set each pane to bottom, top, or disabled independently.[/*]
+[*]Retries after startup so it can catch MO2 after panes finish loading.[/*]
+[*]Waits for startup popups, such as NXM link prompts, before scrolling when possible.[/*]
+[/list]
+
+Startup Scroll only moves the visible UI position. It does not change load order, mod priority, plugin state, profile files, or generated files.
+
+
+[heading][color=#3296C8]Installation[/color][/heading]
+Copy [b]MO2StartupScroll.py[/b] into your Mod Organizer 2 [b]plugins[/b] folder, then restart Mod Organizer 2.
+
+Example:
+
+[b]Mod Organizer\plugins\MO2StartupScroll.py[/b]
+
+After restarting, open [b]Settings → Plugins → Startup Scroll[/b] to adjust behavior.
+
+
+[heading][color=#3296C8]Settings[/color][/heading]
+[b]mod_list_position[/b] and [b]plugin_list_position[/b] control where each pane scrolls on startup. Valid values are [b]bottom[/b], [b]top[/b], and [b]disabled[/b]. Both default to [b]bottom[/b].
+
+Timing options are also available for startup delay, retry count, retry interval, popup wait timeout, and optional debug logging.
+
+
+[heading][color=#3296C8]Notes[/color][/heading]
+MO2 can continue populating and refreshing panes after the main window appears, so a brief visible scroll after startup is normal.
+
+The plugin is profile-agnostic and works with whichever MO2 profile is active.
+
+
+[heading][color=#3296C8]Credits[/color][/heading]
+Startup Scroll was made by Keenan Selbee.
