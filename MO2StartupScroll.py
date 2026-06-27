@@ -11,6 +11,13 @@ import mobase
 class MO2StartupScroll(mobase.IPlugin):
     PLUGIN_NAME = "Startup Scroll"
     VALID_POSITIONS = ("bottom", "top", "disabled")
+    STARTUP_TARGETS = (
+        ("modList", "mod_list_position", "bottom"),
+        ("espList", "plugin_list_position", "bottom"),
+        ("downloadView", "download_list_position", "bottom"),
+        ("bsaList", "archive_list_position", "disabled"),
+        ("dataTree", "data_tree_position", "disabled"),
+    )
 
     def __init__(self):
         super().__init__()
@@ -38,7 +45,7 @@ class MO2StartupScroll(mobase.IPlugin):
         return "Scrolls the mod, plugin, and download panes to configured startup positions."
 
     def version(self):
-        return mobase.VersionInfo(1, 1, 0, mobase.ReleaseType.FINAL)
+        return mobase.VersionInfo(1, 3, 0, mobase.ReleaseType.FINAL)
 
     def isActive(self):
         return True
@@ -61,9 +68,19 @@ class MO2StartupScroll(mobase.IPlugin):
                 "bottom",
             ),
             mobase.PluginSetting(
+                "archive_list_position",
+                "Startup position for the Archives tab list: bottom, top, or disabled.",
+                "disabled",
+            ),
+            mobase.PluginSetting(
+                "data_tree_position",
+                "Startup position for the Data tab tree: bottom, top, or disabled.",
+                "disabled",
+            ),
+            mobase.PluginSetting(
                 "startup_delay_ms",
                 "Delay before the first startup scroll attempt.",
-                750,
+                500,
             ),
             mobase.PluginSetting(
                 "retry_count",
@@ -73,7 +90,7 @@ class MO2StartupScroll(mobase.IPlugin):
             mobase.PluginSetting(
                 "retry_interval_ms",
                 "Delay between startup scroll attempts.",
-                750,
+                500,
             ),
             mobase.PluginSetting(
                 "popup_wait_timeout_ms",
@@ -95,10 +112,10 @@ class MO2StartupScroll(mobase.IPlugin):
     def _on_user_interface_initialized(self, main_window):
         self._main_window = main_window
 
-        startup_delay = self._int_setting("startup_delay_ms", 750, 0, 60000)
+        startup_delay = self._int_setting("startup_delay_ms", 500, 0, 60000)
         self._startup_attempt = 0
         self._startup_retry_count = self._int_setting("retry_count", 4, 1, 20)
-        self._startup_retry_interval_ms = self._int_setting("retry_interval_ms", 750, 0, 60000)
+        self._startup_retry_interval_ms = self._int_setting("retry_interval_ms", 500, 0, 60000)
         self._startup_popup_wait_timeout_ms = self._int_setting(
             "popup_wait_timeout_ms",
             120000,
@@ -106,6 +123,12 @@ class MO2StartupScroll(mobase.IPlugin):
             600000,
         )
         self._startup_popup_wait_elapsed_ms = 0
+        self._log(
+            "retry_count={0}, retry_interval_ms={1}".format(
+                self._startup_retry_count,
+                self._startup_retry_interval_ms,
+            )
+        )
 
         QTimer.singleShot(startup_delay, self._apply_startup_scroll)
 
@@ -124,20 +147,21 @@ class MO2StartupScroll(mobase.IPlugin):
             return
 
         self._startup_attempt += 1
-        mod_position = self._position_setting("mod_list_position", "bottom")
-        plugin_position = self._position_setting("plugin_list_position", "bottom")
-        download_position = self._position_setting("download_list_position", "bottom")
-
-        mod_done = self._position_view("modList", mod_position)
-        plugin_done = self._position_view("espList", plugin_position)
-        download_done = self._position_view("downloadView", download_position)
+        results = []
+        for object_name, setting_key, default in self.STARTUP_TARGETS:
+            position = self._position_setting(setting_key, default)
+            done = self._position_view(object_name, position)
+            results.append(
+                "{0}={1}".format(
+                    object_name,
+                    "skipped" if position == "disabled" else done,
+                )
+            )
 
         self._log(
-            "attempt {0}: modList={1}, espList={2}, downloadView={3}".format(
+            "attempt {0}: {1}".format(
                 self._startup_attempt,
-                "skipped" if mod_position == "disabled" else mod_done,
-                "skipped" if plugin_position == "disabled" else plugin_done,
-                "skipped" if download_position == "disabled" else download_done,
+                ", ".join(results),
             )
         )
 

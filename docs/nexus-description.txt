@@ -1,16 +1,17 @@
 [heading][color=#3296C8]Description[/color][/heading]
-Startup Scroll is a lightweight Mod Organizer 2 plugin that changes one simple thing: instead of opening MO2 lists at the top, MO2 can open the mod list, plugin list, and downloads list at the bottom by default.
+Startup Scroll is a lightweight Mod Organizer 2 plugin that changes one simple thing: instead of opening MO2 lists at the top, MO2 can open selected panes at your preferred startup positions.
 
 Have a 4,000 mod modlist and a personal relationship with the scrollbar? This is for you.
 
 This is useful for large modlists where the work you care about most often lives near the end: final patches, generated outputs, overwrite-related mods, late plugin edits, newest downloads, and active testing changes.
 
-By default, Startup Scroll scrolls the left mod list, right plugin list, and downloads list to the bottom after MO2 finishes opening.
+By default, Startup Scroll scrolls the left mod list, right plugin list, and downloads list to the bottom after MO2 finishes opening. The Archives and Data tabs can also be enabled if you want them positioned on startup.
 
 
 [heading][color=#3296C8]Features[/color][/heading]
 [list]
 [*]Scrolls the mod list, plugin list, and downloads list to the bottom on startup by default.[/*]
+[*]Can also scroll the Archives and Data tabs when enabled.[/*]
 [*]Can set each pane to bottom, top, or disabled independently.[/*]
 [*]Retries after startup so it can catch MO2 after panes finish loading.[/*]
 [*]Waits for startup popups, such as NXM link prompts, before scrolling when possible.[/*]
@@ -30,9 +31,11 @@ After restarting, open [b]Settings → Plugins → Startup Scroll[/b] to adjust 
 
 
 [heading][color=#3296C8]Settings[/color][/heading]
-[b]mod_list_position[/b], [b]plugin_list_position[/b], and [b]download_list_position[/b] control where each pane scrolls on startup. Valid values are [b]bottom[/b], [b]top[/b], and [b]disabled[/b]. All three default to [b]bottom[/b].
+[b]mod_list_position[/b], [b]plugin_list_position[/b], and [b]download_list_position[/b] control where the main lists scroll on startup. Valid values are [b]bottom[/b], [b]top[/b], and [b]disabled[/b]. All three default to [b]bottom[/b].
 
-Timing options are also available for startup delay, retry count, retry interval, popup wait timeout, and optional debug logging.
+[b]archive_list_position[/b] and [b]data_tree_position[/b] are also available for the Archives and Data tabs. Both default to [b]disabled[/b].
+
+Timing options are also available for startup delay, retry count, retry interval, popup wait timeout, and optional debug logging. If another plugin scrolls a pane after Startup Scroll, try increasing [b]retry_count[/b].
 
 
 [heading][color=#3296C8]Notes[/color][/heading]
