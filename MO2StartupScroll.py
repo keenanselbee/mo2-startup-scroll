@@ -35,10 +35,10 @@ class MO2StartupScroll(mobase.IPlugin):
         return "Keenan Selbee"
 
     def description(self):
-        return "Scrolls the mod and plugin panes to configured startup positions."
+        return "Scrolls the mod, plugin, and download panes to configured startup positions."
 
     def version(self):
-        return mobase.VersionInfo(1, 0, 0, mobase.ReleaseType.FINAL)
+        return mobase.VersionInfo(1, 1, 0, mobase.ReleaseType.FINAL)
 
     def isActive(self):
         return True
@@ -53,6 +53,11 @@ class MO2StartupScroll(mobase.IPlugin):
             mobase.PluginSetting(
                 "plugin_list_position",
                 "Startup position for the right plugin list: bottom, top, or disabled.",
+                "bottom",
+            ),
+            mobase.PluginSetting(
+                "download_list_position",
+                "Startup position for the downloads list: bottom, top, or disabled.",
                 "bottom",
             ),
             mobase.PluginSetting(
@@ -121,15 +126,18 @@ class MO2StartupScroll(mobase.IPlugin):
         self._startup_attempt += 1
         mod_position = self._position_setting("mod_list_position", "bottom")
         plugin_position = self._position_setting("plugin_list_position", "bottom")
+        download_position = self._position_setting("download_list_position", "bottom")
 
         mod_done = self._position_view("modList", mod_position)
         plugin_done = self._position_view("espList", plugin_position)
+        download_done = self._position_view("downloadView", download_position)
 
         self._log(
-            "attempt {0}: modList={1}, espList={2}".format(
+            "attempt {0}: modList={1}, espList={2}, downloadView={3}".format(
                 self._startup_attempt,
                 "skipped" if mod_position == "disabled" else mod_done,
                 "skipped" if plugin_position == "disabled" else plugin_done,
+                "skipped" if download_position == "disabled" else download_done,
             )
         )
 
