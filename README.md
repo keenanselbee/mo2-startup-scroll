@@ -1,3 +1,5 @@
+![Startup Scroll](docs/images/nexus-main.png)
+
 # Startup Scroll - Mod and Plugin Lists Start at Bottom
 
 Startup Scroll is a small Mod Organizer 2 Python plugin that scrolls the left mod list and right plugin list to your preferred startup position after MO2 opens.
